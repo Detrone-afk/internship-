@@ -1,0 +1,40 @@
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image"; // ✅ Import Image
+
+export default function DarkModeToggle() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+      setDarkMode(true);
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    if (darkMode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+    setDarkMode(!darkMode);
+  };
+
+  return (
+    <div className="flex justify-between items-center w-full p-3">
+      {/* ✅ DETRONE Image at the left-most side */}
+      <Image src="/detrone.png" alt="DETRONE Logo" width={120} height={40} />
+
+      {/* ✅ Dark Mode Toggle at the right-most side */}
+      <button
+        onClick={toggleDarkMode}
+        className="p-2 bg-gray-200 dark:bg-gray-800 text-black dark:text-white rounded-md"
+      >
+        {darkMode ? "🌙 Dark Mode" : "☀️ Light Mode"}
+      </button>
+    </div>
+  );
+}

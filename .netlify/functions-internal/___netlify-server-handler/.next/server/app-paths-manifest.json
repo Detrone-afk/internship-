@@ -1,0 +1,10 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/create-intent/route": "app/api/create-intent/route.js",
+  "/page": "app/page.js",
+  "/feedback/page": "app/feedback/page.js",
+  "/payment/page": "app/payment/page.js",
+  "/sign-up/[[...sign-up]]/page": "app/sign-up/[[...sign-up]]/page.js",
+  "/payment-success/page": "app/payment-success/page.js",
+  "/sign-in/[[...sign-in]]/page": "app/sign-in/[[...sign-in]]/page.js"
+}

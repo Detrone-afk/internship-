@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = ".next"  # ✅ Correct for Next.js SSR & API Routes
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
