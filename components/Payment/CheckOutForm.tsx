@@ -47,7 +47,7 @@ function CheckOutForm({ amount }: { amount: number }) {
     const { error } = await stripe.confirmPayment({
       clientSecret, // ✅ Use extracted clientSecret (string)
       elements,
-      confirmParams: { return_url: "http://localhost:3000/payment-success" },
+      confirmParams: { return_url: "https://detrone.vercel.app/payment-success" },
     });
 
     if (error) {

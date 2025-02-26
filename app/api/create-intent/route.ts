@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  typescript: true,
-  apiVersion: null, // ✅ Kept as it was (no change)
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string); // ✅ No need to specify `apiVersion`
 
 export async function POST(request: Request) {  
   try {
@@ -13,11 +10,11 @@ export async function POST(request: Request) {
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount * 100, 
-      currency: "usd", // ✅ Lowercase to follow Stripe standards
+      currency: "usd",
     });
 
-    return NextResponse.json({ clientSecret: paymentIntent.client_secret }, { status: 200 }); // ✅ Wrapped in object
+    return NextResponse.json({ clientSecret: paymentIntent.client_secret }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: (error as Error).message }, { status: 400 }); // ✅ Proper error handling
+    return NextResponse.json({ error: (error as Error).message }, { status: 400 });
   }
 }
