@@ -6,12 +6,15 @@ const clerk = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY!,
 });
 
-// ✅ GET user by userId
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
-  const { userId } = params;
+// Define RouteHandlerContext type manually
+type RouteHandlerContext = {
+  params: {
+    userId: string;
+  };
+};
+
+export async function GET(req: NextRequest, context: RouteHandlerContext) {
+  const { userId } = context.params;
 
   const { userId: authUserId } = getAuth(req);
   if (!authUserId) {
@@ -36,19 +39,14 @@ export async function GET(
   }
 }
 
-// ✅ PATCH to update user
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
-  const { userId } = params;
+export async function PATCH(req: NextRequest, context: RouteHandlerContext) {
+  const { userId } = context.params;
   const body = await req.json();
 
   try {
     const updatedUser = await clerk.users.updateUser(userId, {
       firstName: body.first_name,
       lastName: body.last_name,
-      // Email updates are not supported directly here
     });
 
     return NextResponse.json({
@@ -61,12 +59,8 @@ export async function PATCH(
   }
 }
 
-// ✅ DELETE user
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
-  const { userId } = params;
+export async function DELETE(req: NextRequest, context: RouteHandlerContext) {
+  const { userId } = context.params;
 
   try {
     await clerk.users.deleteUser(userId);
