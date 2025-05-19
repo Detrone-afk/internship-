@@ -3,21 +3,17 @@ import React, { useState } from "react";
 import {
    FaCar,          
   FaDesktop, 
-  FaEnvelope,
-  FaBriefcase,
-  FaUsers,
   FaBell,
   FaWrench,
   FaEnvelopeOpenText,
   FaSignOutAlt,
-  FaUserCircle,
   FaDownload,
   FaEye,
-  FaUserShield,
   FaCamera,
   FaSave,
   FaTimes,
-  FaGlobe
+  FaGlobe,
+  FaUsers
 } from "react-icons/fa";
 import { useUser, UserButton, useClerk } from "@clerk/nextjs";
 import { toast } from "react-toastify";

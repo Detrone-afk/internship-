@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image"; // ✅ Import Image
 
 export default function DarkModeToggle() {
   const [darkMode, setDarkMode] = useState(false);
@@ -12,7 +11,7 @@ export default function DarkModeToggle() {
     }
   }, []);
 
-  const toggleDarkMode = () => {
+  {/*const toggleDarkMode = () => {
     if (darkMode) {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
