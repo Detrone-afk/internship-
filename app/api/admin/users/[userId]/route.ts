@@ -6,11 +6,12 @@ const clerk = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY
 });
 
+// For PATCH handler
 export async function PATCH(
   request: NextRequest,
-  context: { params: { userId: string } }
+  { params }: { params: { userId: string } }
 ) {
-  const userId = context.params.userId;
+  const userId = params.userId;
   const { userId: authUserId } = getAuth(request);
 
   if (!authUserId) {
@@ -41,11 +42,12 @@ export async function PATCH(
   }
 }
 
+// For DELETE handler
 export async function DELETE(
   request: NextRequest,
-  context: { params: { userId: string } }
+  { params }: { params: { userId: string } }
 ) {
-  const userId = context.params.userId;
+  const userId = params.userId;
   const { userId: authUserId } = getAuth(request);
 
   if (!authUserId) {
