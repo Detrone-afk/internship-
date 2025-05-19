@@ -1,21 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAuth } from '@clerk/nextjs/server';
 import { createClerkClient } from '@clerk/backend';
+import { getAuth } from '@clerk/nextjs/server';
 
 const clerk = createClerkClient({
-  secretKey: process.env.CLERK_SECRET_KEY
+  secretKey: process.env.CLERK_SECRET_KEY!,
 });
 
-// GET User
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Record<string, string> }
-) {
-  try {
-    const { userId: authUserId } = getAuth(request);
-    if (!authUserId) return new NextResponse('Unauthorized', { status: 401 });
+// GET user by userId
+export async function GET(req: NextRequest, context: { params: { userId: string } }) {
+  const { userId } = context.params;
 
-    const user = await clerk.users.getUser(params.userId);
+  try {
+    const { userId: authUserId } = getAuth(req);
+    if (!authUserId) {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+
+    const user = await clerk.users.getUser(userId);
+
     return NextResponse.json({
       id: user.id,
       first_name: user.firstName,
@@ -23,53 +25,43 @@ export async function GET(
       email_addresses: user.emailAddresses,
       profile_image_url: user.imageUrl,
       last_sign_in_at: user.lastSignInAt,
-      created_at: user.createdAt
+      created_at: user.createdAt,
     });
   } catch (error) {
     console.error('Error fetching user:', error);
-    return new NextResponse('Internal Error', { status: 500 });
+    return new NextResponse('Internal Server Error', { status: 500 });
   }
 }
 
-// PATCH User
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Record<string, string> }
-) {
+// PATCH to update user
+export async function PATCH(req: NextRequest, context: { params: { userId: string } }) {
+  const { userId } = context.params;
+  const body = await req.json();
+
   try {
-    const { userId: authUserId } = getAuth(request);
-    if (!authUserId) return new NextResponse('Unauthorized', { status: 401 });
-
-    const { first_name, last_name } = await request.json();
-    const updatedUser = await clerk.users.updateUser(params.userId, {
-      firstName: first_name,
-      lastName: last_name
+    const updatedUser = await clerk.users.updateUser(userId, {
+      firstName: body.first_name,
+      lastName: body.last_name,
+      // email update is not allowed directly here
     });
 
-    return NextResponse.json({
-      id: updatedUser.id,
-      first_name: updatedUser.firstName,
-      last_name: updatedUser.lastName
-    });
+    return NextResponse.json({ message: 'User updated successfully', user: updatedUser });
   } catch (error) {
     console.error('Error updating user:', error);
-    return new NextResponse('Internal Error', { status: 500 });
+    return new NextResponse('Failed to update user', { status: 500 });
   }
 }
 
-// DELETE User
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Record<string, string> }
-) {
-  try {
-    const { userId: authUserId } = getAuth(request);
-    if (!authUserId) return new NextResponse('Unauthorized', { status: 401 });
 
-    await clerk.users.deleteUser(params.userId);
-    return NextResponse.json({ success: true });
+// DELETE user
+export async function DELETE(req: NextRequest, context: { params: { userId: string } }) {
+  const { userId } = context.params;
+
+  try {
+    await clerk.users.deleteUser(userId);
+    return NextResponse.json({ message: 'User deleted successfully' });
   } catch (error) {
     console.error('Error deleting user:', error);
-    return new NextResponse('Internal Error', { status: 500 });
+    return new NextResponse('Failed to delete user', { status: 500 });
   }
 }
