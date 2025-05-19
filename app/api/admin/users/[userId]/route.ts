@@ -9,12 +9,12 @@ const clerk = createClerkClient({
 // GET User
 export async function GET(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Record<string, string> }
 ) {
   try {
     const { userId: authUserId } = getAuth(request);
     if (!authUserId) return new NextResponse('Unauthorized', { status: 401 });
-    
+
     const user = await clerk.users.getUser(params.userId);
     return NextResponse.json({
       id: user.id,
@@ -31,21 +31,21 @@ export async function GET(
   }
 }
 
-// UPDATE User
+// PATCH User
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Record<string, string> }
 ) {
   try {
     const { userId: authUserId } = getAuth(request);
     if (!authUserId) return new NextResponse('Unauthorized', { status: 401 });
-    
+
     const { first_name, last_name } = await request.json();
     const updatedUser = await clerk.users.updateUser(params.userId, {
       firstName: first_name,
       lastName: last_name
     });
-    
+
     return NextResponse.json({
       id: updatedUser.id,
       first_name: updatedUser.firstName,
@@ -60,12 +60,12 @@ export async function PATCH(
 // DELETE User
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Record<string, string> }
 ) {
   try {
     const { userId: authUserId } = getAuth(request);
     if (!authUserId) return new NextResponse('Unauthorized', { status: 401 });
-    
+
     await clerk.users.deleteUser(params.userId);
     return NextResponse.json({ success: true });
   } catch (error) {
