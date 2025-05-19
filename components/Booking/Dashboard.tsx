@@ -417,7 +417,6 @@ function Dashboard() {
                   {locationTraffic.map((p, idx) => (
                     <div key={idx} className="flex items-center justify-between bg-slate-50 px-3 py-2 rounded">
                       <div className="flex items-center gap-3">
-                        <img src="/avatar1.png" alt="" className="w-8 h-8 rounded-full bg-gray-200" />
                         <div>
                           <div className="font-semibold text-base">{p.name}</div>
                           <div className="text-sm text-gray-400">Status: {p.salary}</div>

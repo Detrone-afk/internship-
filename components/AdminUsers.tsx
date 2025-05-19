@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { FaEdit, FaTrash, FaSearch, FaSync } from 'react-icons/fa';
+import Image from 'next/image';
+
 
 interface User {
   id: string;
@@ -172,11 +174,13 @@ export default function AdminUsers() {
                     ) : (
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
-                          <img 
-                            className="h-10 w-10 rounded-full" 
-                            src={user.profile_image_url} 
-                            alt={`${user.first_name} ${user.last_name}`} 
-                          />
+                         <Image
+                       className="rounded-full"
+                       src={user.profile_image_url}
+                       alt={`${user.first_name} ${user.last_name}`}
+                            width={40}   // h-10 & w-10 = 2.5rem = 40px
+                           height={40}
+                                 />
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">
