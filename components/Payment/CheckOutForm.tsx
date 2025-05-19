@@ -44,16 +44,24 @@ function CheckOutForm({ amount }: { amount: number }) {
       return;
     }
 
-    const { error } = await stripe.confirmPayment({
-      clientSecret, // ✅ Use extracted clientSecret (string)
-      elements,
-      confirmParams: { return_url: "https://detrone.vercel.app/payment-success" },
-    });
+    const { error, paymentIntent } = await stripe.confirmPayment({
+  clientSecret,
+  elements,
+  confirmParams: {
+    // ✅ Use absolute URL
+    return_url: `${window.location.origin}/payment-success`,
+  },
+  // ✅ Explicitly handle redirects
+  redirect: "if_required" 
+});
 
-    if (error) {
-      toast.error(" Payment Failed!", { position: "top-right", autoClose: 3000 });
-    }
-
+if (error) {
+  toast.error(error.message || "Payment failed!");
+  setIsProcessing(false);
+} else if (paymentIntent?.status === "succeeded") {
+  // ✅ Manual redirect as fallback
+  window.location.href = "/payment-success"; 
+}
     setIsProcessing(false); // ✅ Reset button state after payment attempt
   };
 

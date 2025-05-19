@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaLocationArrow, FaMapMarkerAlt } from "react-icons/fa";
 
 const locations = [
   "New Delhi",
@@ -50,8 +51,13 @@ function AutocompleteAddress({ onConfirm }: { onConfirm: () => void }) {
     <div className="mt-5">
       {/* Location Field */}
       <div className="mb-3">
-        <label className="text-orange-500 font-semibold">Your Location</label>
-        <select
+         <label className="text-green-500 font-semibold flex items-center gap-2 text-lg">
+         <span className="bg-orange-100 p-1 rounded-full">
+         <FaMapMarkerAlt className="text-orange-500  animate-pulse" />
+         </span>
+         Choose Location
+         </label>        
+         <select
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           className="bg-white dark:bg-black dark:text-white p-2 border-[1px] w-full rounded-md outline-none focus:border-blue-500"
@@ -68,8 +74,11 @@ function AutocompleteAddress({ onConfirm }: { onConfirm: () => void }) {
 
       {/* Destination Field */}
       <div>
-        <label className="text-orange-500 font-semibold">Your Destination</label>
-        <select
+        <label className="text-green-500 font-semibold flex items-center gap-2 text-lg">
+       <FaLocationArrow className="text-orange-400 animate-pulse" />
+        Choose Destination
+           </label>        
+           <select
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
           className="bg-white dark:bg-black dark:text-white p-2 border-[1px] w-full rounded-md outline-none focus:border-blue-500"

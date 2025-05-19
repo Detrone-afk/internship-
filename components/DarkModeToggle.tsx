@@ -23,12 +23,11 @@ export default function DarkModeToggle() {
     setDarkMode(!darkMode);
   };
 
-  return (
+  {/*return (
+    
     <div className="flex justify-between items-center w-full p-3">
-      {/* ✅ DETRONE Image at the left-most side */}
       <Image src="/detrone.png" alt="DETRONE Logo" width={120} height={40} />
 
-      {/* ✅ Dark Mode Toggle at the right-most side */}
       <button
         onClick={toggleDarkMode}
         className="p-2 bg-gray-200 dark:bg-gray-800 text-black dark:text-white rounded-md"
@@ -36,5 +35,5 @@ export default function DarkModeToggle() {
         {darkMode ? "🌙 Dark Mode" : "☀️ Light Mode"}
       </button>
     </div>
-  );
+  );*/}
 }

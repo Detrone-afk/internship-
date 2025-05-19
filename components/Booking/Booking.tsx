@@ -6,11 +6,13 @@ import AutocompleteAddress from "./AutocompleteAddress";
 import Cars from "./Cars";
 import Cards from "./Cards";
 import { useRouter } from "next/navigation";
+import Dashboard from "./Dashboard";
 
 function Booking() {
   const [showOptions, setShowOptions] = useState<boolean>(false);
-  const [confirmed, setConfirmed] = useState(false); // ✅ Track if selection is confirmed
-  const [isBooking, setIsBooking] = useState(false); // ✅ Track if booking is in progress
+  const [confirmed, setConfirmed] = useState(false);
+  const [isBooking, setIsBooking] = useState(false);
+  const [showDashboard, setShowDashboard] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -27,42 +29,53 @@ function Booking() {
     });
   }, []);
 
-  // ✅ Handle Booking
   const handleBooking = () => {
     toast.success("Redirecting to Payment...", {
       position: "top-center",
       theme: "colored",
     });
-
-    setIsBooking(true); // ✅ Change button text to "Booking..."
-
+    setIsBooking(true);
     setTimeout(() => {
-      router.push("/payment"); // ✅ Redirect to payment
+      router.push("/payment");
     }, 2000);
   };
 
   return (
-    <div className="p-5">
+    <div className="relative p-5 " >
       <ToastContainer />
-      <h2 className="text-[20px] font-semibold">Booking</h2>
+      
+      {/* 🚀 Hamburger Menu Button */}
+     <button
+        onClick={() => setShowDashboard(!showDashboard)}
+        className="fixed top-4 mt-2 left-4 z-50 p-2 text-orange-500 rounded-md bg-white shadow-lg hover:bg-orange-500 hover:text-white  dark:bg-orange-500 dark:text-white dark:hover:bg-white dark:hover:text-orange-500"
+      >
+         <span className="absolute -top-1 -right-1 flex items-center justify-center h-3 w-3 bg-green-500 text-white text-xs font-bold rounded-full z-50 border-2 border-white">
+  
+  </span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <rect x="4" y="6" width="16" height="2" rx="1" />
+          <rect x="4" y="11" width="16" height="2" rx="1" />
+          <rect x="4" y="16" width="16" height="2" rx="1" />
+        </svg>
+      </button>
 
-      {/* Adjust height dynamically based on showOptions */}
+<h2 className="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">
+  Booking
+</h2>
       <div
         className={`border-[1px] p-5 rounded-md transition-all duration-300 overflow-hidden`}
         style={{ height: showOptions ? "auto" : "250px" }}
       >
-        <AutocompleteAddress onConfirm={() => setConfirmed(true)} /> {/* ✅ Pass function */}
+        <AutocompleteAddress onConfirm={() => setConfirmed(true)} />
 
-        {/* Button to show available rides */}
         <button
-          className="p-3 bg-orange-500 w-full mt-5 text-white rounded-lg"
+          className="p-3 bg-green-500 w-full mt-5 text-white rounded-lg   hover:bg-green-600 hover:text-white "
           onClick={() => setShowOptions(true)}
         >
           Find Rides
         </button>
 
-        {/* Conditionally render Cars and Cards components */}
-        {showOptions && confirmed && ( // ✅ Show only when selection is confirmed
+        {showOptions && confirmed && (
           <>
             <Cars />
             <Cards />
@@ -71,15 +84,34 @@ function Booking() {
                 isBooking ? "bg-gray-500 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
               }`}
               onClick={handleBooking}
-              disabled={isBooking} // ✅ Disable button while booking
+              disabled={isBooking}
             >
               {isBooking ? "Booking..." : "Book Now"}
             </button>
           </>
         )}
       </div>
+
+      {/* 🚀 Dashboard Sidebar (75% width, no scroll) */}
+      <div
+        className={`fixed top-0 right-0 h-screen w-3/4 bg-[#131F4B] z-40 transform transition-transform duration-300 ease-in-out overflow-hidden ${
+          showDashboard ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="h-full overflow-hidden"> {/* Prevent inner scrolling */}
+          <Dashboard />
+        </div>
+      </div>
+
+      {/* 🚀 Overlay (Closes sidebar when clicked) */}
+      {showDashboard && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-30"
+          onClick={() => setShowDashboard(false)}
+        />
+      )}
     </div>
   );
 }
 
-export default Booking;
+export default Booking

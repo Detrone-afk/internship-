@@ -1,18 +1,49 @@
 import { SignIn } from "@clerk/nextjs";
 import Image from "next/image";
 
-
 export default function Page() {
   return (
-     <>
-        <div>
-            <Image src='/web.png' width={900} height={500} alt='Jeep' 
-            className="object-contain h-full w-full"/>
-            <div className="absolute top-24 left-20">
-                <SignIn />
-            </div>
-            
+    <div className="min-h-screen flex flex-col md:flex-row items-stretch bg-gray-100 dark:bg-gray-900">
+      {/* Left: SignIn Widget */}
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2 min-h-screen bg-white/90 dark:bg-gray-800/90 p-0 m-0">
+        <div className="w-full max-w-md mx-auto flex flex-col items-center">
+          <Image src="/jeep.png" width={90} height={30} alt="Logo" className="mb-4 mt-10 md:mt-0" />
+          <h1 className="text-1xl md:text-2xl font-bold mb-4 text-center text-[#182962] dark:text-white">
+            Welcome Back!
+          </h1>
+          <SignIn
+            appearance={{
+              elements: {
+                formButtonPrimary: "bg-orange-500 hover:bg-orange-600 text-white",
+                card: "shadow-none bg-transparent",
+              },
+            }}
+          />
         </div>
-        </>
+      </div>
+
+      {/* Right: Image & Text */}
+      <div className="hidden md:flex flex-col justify-center items-center w-1/2 min-h-screen relative p-0 m-0">
+        {/* FULL COVER IMAGE */}
+        <Image
+          src="/web.png"
+          alt="Jeep"
+          fill
+          className="object-cover  object-right w-full h-full absolute inset-0 z-0"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/20 z-10" />
+        <div className="relative z-20 flex flex-col items-center justify-center w-full h-full px-8">
+          <Image src="/detrone.png" width={170} height={64} alt="Detrone Logo" className="mb-3" />
+          <h1 className="text-2xl lg:text-3xl font-bold text-white drop-shadow mb-2 text-center">
+            Welcome to Detrone
+          </h1>
+          <p className="text-base lg:text-lg text-white drop-shadow text-center font-medium">
+            Sign in to continue your adventure with Detrone.<br />
+            Unlock exclusive features, manage your bookings, and more!
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/backend": "^1.32.2",
+    "@clerk/clerk-sdk-node": "^5.1.6",
     "@clerk/nextjs": "^6.12.0",
     "@netlify/plugin-nextjs": "^5.9.4",
     "@stripe/react-stripe-js": "^3.1.1",
@@ -20,6 +22,7 @@
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
     "react-map-gl": "^7.1.9",
     "react-toastify": "^11.0.5",
     "stripe": "^17.6.0"
