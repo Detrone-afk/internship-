@@ -7,8 +7,8 @@ const clerk = createClerkClient({
 });
 
 // GET user by userId
-export async function GET(req: NextRequest, context: { params: { userId: string } }) {
-  const { userId } = context.params;
+export async function GET(req: NextRequest, { params }: { params: { userId: string } }) {
+  const { userId } = params;
 
   try {
     const { userId: authUserId } = getAuth(req);
@@ -34,15 +34,14 @@ export async function GET(req: NextRequest, context: { params: { userId: string 
 }
 
 // PATCH to update user
-export async function PATCH(req: NextRequest, context: { params: { userId: string } }) {
-  const { userId } = context.params;
+export async function PATCH(req: NextRequest, { params }: { params: { userId: string } }) {
+  const { userId } = params;
   const body = await req.json();
 
   try {
     const updatedUser = await clerk.users.updateUser(userId, {
       firstName: body.first_name,
       lastName: body.last_name,
-      // email update is not allowed directly here
     });
 
     return NextResponse.json({ message: 'User updated successfully', user: updatedUser });
@@ -52,10 +51,9 @@ export async function PATCH(req: NextRequest, context: { params: { userId: strin
   }
 }
 
-
 // DELETE user
-export async function DELETE(req: NextRequest, context: { params: { userId: string } }) {
-  const { userId } = context.params;
+export async function DELETE(req: NextRequest, { params }: { params: { userId: string } }) {
+  const { userId } = params;
 
   try {
     await clerk.users.deleteUser(userId);
