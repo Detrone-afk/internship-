@@ -6,12 +6,19 @@ const clerk = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY
 });
 
-// For PATCH handler
+// Type for the params
+type RouteParams = {
+  params: {
+    userId: string;
+  };
+};
+
+// PATCH handler
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: RouteParams
 ) {
-  const userId = params.userId;
+  const { userId } = params;
   const { userId: authUserId } = getAuth(request);
 
   if (!authUserId) {
@@ -42,12 +49,12 @@ export async function PATCH(
   }
 }
 
-// For DELETE handler
-export async function DELETE(
+// DELETE handler - alternative syntax
+export const DELETE = async (
   request: NextRequest,
-  { params }: { params: { userId: string } }
-) {
-  const userId = params.userId;
+  { params }: RouteParams
+) => {
+  const { userId } = params;
   const { userId: authUserId } = getAuth(request);
 
   if (!authUserId) {
@@ -61,4 +68,4 @@ export async function DELETE(
     console.error('Error deleting user:', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
-}
+};
