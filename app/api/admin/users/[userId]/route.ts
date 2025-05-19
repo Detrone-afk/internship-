@@ -28,17 +28,3 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { userId: string } }
-) {
-  const { userId } = params;
-
-  try {
-    await clerk.users.deleteUser(userId);
-    return NextResponse.json({ message: 'User deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting user:', error);
-    return new NextResponse('Failed to delete user', { status: 500 });
-  }
-}
