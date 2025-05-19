@@ -24,7 +24,8 @@ export async function GET(request: Request) {
         first_name: user.firstName,
         last_name: user.lastName,
         email: user.emailAddresses[0]?.emailAddress,
-        image_url: user.imageUrl,
+      profile_image_url: user.imageUrl, // This contains the profile photo URL
+
         last_active: user.lastSignInAt,
         created_at: user.createdAt
       }))
