@@ -6,7 +6,7 @@ const clerk = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY
 });
 
-// GET /api/admin/users/[userId] - Get single user
+// GET Single User
 export async function GET(
   request: NextRequest,
   { params }: { params: { userId: string } }
@@ -36,7 +36,7 @@ export async function GET(
   }
 }
 
-// PATCH /api/admin/users/[userId] - Update user
+// UPDATE User
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { userId: string } }
@@ -63,7 +63,7 @@ export async function PATCH(
   }
 }
 
-// DELETE /api/admin/users/[userId] - Delete user
+// DELETE User
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { userId: string } }
