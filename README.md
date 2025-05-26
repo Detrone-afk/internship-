@@ -18,7 +18,7 @@ This is a **Next.js** project bootstrapped with **create-next-app**, built using
 ## 🌐 Live Deployment
 
 Check the live project here:
-🔗 [https://internship-one-psi.vercel.app/]
+🔗 [https://internship-one-psi.vercel.app/] or [https://detrone.vercel.app/]
 
 ---
 
