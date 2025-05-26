@@ -52,7 +52,7 @@ function NavBar() {
     <>
       {/* Navbar Content */}
       <div className="relative bg-[#182962] dark:bg-gray-900 text-white dark:text-gray-100 flex justify-between py-6 px-10 border-b-[1px] shadow-sm items-center w-full">
-        {/* Centered Jeep Logo */}
+        {/* centered Jeep Logo for navbar */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex justify-center items-center select-none">
           <button onClick={handleReload} className="focus:outline-none pointer-events-auto" aria-label="Reload page">
             <Image src="/jeep.png" alt="Jeep Logo" width={60} height={30} />
@@ -114,8 +114,10 @@ function NavBar() {
             {darkMode ? "🌙" : "☀️"}
           </button>
 
-          {/* Detrone Logo at right */}
-          <button onClick={handleReload} className="focus:outline-none" aria-label="Reload page">
+          {/* Detrone Logo at right       className="focus:outline-none*/}
+          <button onClick={handleReload} 
+          className="focus:outline-none hidden md:block"
+          aria-label="Reload page">
             <Image 
               src="/detrone.png" 
               alt="DETRONE Logo" 

@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
-import FeedbackPage from "@/components/Feedback"; // ✅ Import Feedback Form
+import FeedbackPage from "@/components/Feedback"; 
 
 export default function Feedback() {
   return (
     <div 
       className="min-h-screen bg-gray-100 p-5 flex justify-center items-center"
       style={{
-        backgroundImage: "url('/feedback.jpg')", // ✅ Background Image
+        backgroundImage: "url('/feedback.jpg')", 
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -17,7 +17,7 @@ export default function Feedback() {
           DETRONE 📢 Feedback
         </h1>
 
-        {/* ✅ Feedback Form Appears Here */}
+        {/*Feedback Page */}
         <FeedbackPage />
       </div>
     </div>

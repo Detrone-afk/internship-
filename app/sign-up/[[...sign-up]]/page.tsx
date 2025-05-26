@@ -4,7 +4,6 @@ import Image from "next/image";
 export default function Page() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row items-stretch bg-gray-100 dark:bg-gray-900">
-      {/* Left: SignUp Widget */}
       <div className="flex flex-col justify-center items-center w-full md:w-1/2 min-h-screen bg-white/90 dark:bg-gray-800/90 p-0 m-0">
         <div className="w-full max-w-md mx-auto flex flex-col items-center">
           <Image src="/jeep.png" width={90} height={30} alt="Logo" className="mb-4 mt-10 md:mt-0" />
@@ -22,7 +21,6 @@ export default function Page() {
         </div>
       </div>
 
-      {/* Right: Image & Text */}
       <div className="hidden md:flex flex-col justify-center items-center w-1/2 min-h-screen relative p-0 m-0">
         <Image
           src="/web.png"

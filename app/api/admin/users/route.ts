@@ -7,7 +7,6 @@ const clerk = createClerkClient({
 });
 
 export async function GET(request: NextRequest) {
-  // Properly type the request instead of using 'any'
   const { userId } = getAuth(request);
   
   if (!userId) {

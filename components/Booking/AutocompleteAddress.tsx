@@ -26,7 +26,7 @@ function AutocompleteAddress({ onConfirm }: { onConfirm: () => void }) {
   const [location, setLocation] = useState("");
   const [destination, setDestination] = useState("");
   const [error, setError] = useState("");
-  const [confirmed, setConfirmed] = useState(false); // ✅ Track if selection is confirmed
+  const [confirmed, setConfirmed] = useState(false);
 
   const handleConfirmSelection = () => {
     if (!location || !destination) {
@@ -37,27 +37,30 @@ function AutocompleteAddress({ onConfirm }: { onConfirm: () => void }) {
       return;
     }
 
-    setError(""); // ✅ Clear error if both are selected
+    // Save to localStorage
+    localStorage.setItem('pickup', location);
+    localStorage.setItem('dropoff', destination);
+
+    setError("");
     toast.success(`🚗 Booking from ${location} to ${destination}!`, {
       position: "top-center",
       theme: "colored",
     });
 
-    setConfirmed(true); // ✅ Make the button disappear
-    onConfirm(); // ✅ Notify `Booking.tsx` to show next options
+    setConfirmed(true);
+    onConfirm();
   };
 
   return (
     <div className="mt-5">
-      {/* Location Field */}
       <div className="mb-3">
-         <label className="text-green-500 font-semibold flex items-center gap-2 text-lg">
-         <span className="bg-orange-100 p-1 rounded-full">
-         <FaMapMarkerAlt className="text-orange-500  animate-pulse" />
-         </span>
-         Choose Location
-         </label>        
-         <select
+        <label className="text-green-500 font-semibold flex items-center gap-2 text-lg">
+          <span className="bg-orange-100 p-1 rounded-full">
+            <FaMapMarkerAlt className="text-orange-500 animate-pulse" />
+          </span>
+          Choose Location
+        </label>        
+        <select
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           className="bg-white dark:bg-black dark:text-white p-2 border-[1px] w-full rounded-md outline-none focus:border-blue-500"
@@ -72,13 +75,12 @@ function AutocompleteAddress({ onConfirm }: { onConfirm: () => void }) {
         </select>
       </div>
 
-      {/* Destination Field */}
       <div>
         <label className="text-green-500 font-semibold flex items-center gap-2 text-lg">
-       <FaLocationArrow className="text-orange-400 animate-pulse" />
-        Choose Destination
-           </label>        
-           <select
+          <FaLocationArrow className="text-orange-400 animate-pulse" />
+          Choose Destination
+        </label>        
+        <select
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
           className="bg-white dark:bg-black dark:text-white p-2 border-[1px] w-full rounded-md outline-none focus:border-blue-500"
@@ -93,10 +95,8 @@ function AutocompleteAddress({ onConfirm }: { onConfirm: () => void }) {
         </select>
       </div>
 
-      {/* Error Message */}
       {error && <p className="text-red-500 font-semibold mt-2">{error}</p>}
 
-      {/* Button: Vanishes after clicking */}
       {!confirmed && (
         <button
           onClick={handleConfirmSelection}

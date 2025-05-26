@@ -6,13 +6,13 @@ import "react-toastify/dist/ReactToastify.css";
 function CheckOutForm({ amount }: { amount: number }) {
   const stripe = useStripe();
   const elements = useElements();
-  const [isProcessing, setIsProcessing] = useState(false); // ✅ Button state added
+  const [isProcessing, setIsProcessing] = useState(false); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!stripe || !elements) return;
 
-    setIsProcessing(true); // ✅ Set button to processing state
+    setIsProcessing(true); // button to processing state
 
     const { error: submitError } = await elements.submit();
     if (submitError) {
@@ -26,8 +26,8 @@ function CheckOutForm({ amount }: { amount: number }) {
       body: JSON.stringify({ amount }),
     });
 
-    const { clientSecret } = await response.json(); // ✅ Extract clientSecret properly
-    console.log("Generated Token:", clientSecret); // ✅ Log token
+    const { clientSecret } = await response.json(); // Extracting clientSecret properly
+    console.log("Generated Token:", clientSecret); // Log token
 
     if (clientSecret) {
       toast.success(" Payment Done!", {
@@ -48,10 +48,10 @@ function CheckOutForm({ amount }: { amount: number }) {
   clientSecret,
   elements,
   confirmParams: {
-    // ✅ Use absolute URL
+    //  Use absolute URL
     return_url: `${window.location.origin}/payment-success`,
   },
-  // ✅ Explicitly handle redirects
+  // Explicitly handle redirects
   redirect: "if_required" 
 });
 
@@ -59,15 +59,15 @@ if (error) {
   toast.error(error.message || "Payment failed!");
   setIsProcessing(false);
 } else if (paymentIntent?.status === "succeeded") {
-  // ✅ Manual redirect as fallback
+  // Manual redirect as fallback
   window.location.href = "/payment-success"; 
 }
-    setIsProcessing(false); // ✅ Reset button state after payment attempt
+    setIsProcessing(false); // It reset button state after payment attempt
   };
 
   return (
     <div className="flex flex-col justify-center items-center w-full mt-6">
-      <ToastContainer /> {/* ✅ Keep your toast as it was */}
+      <ToastContainer /> {/*toast*/}
 
       <h2 className="m-5 font-bold"> Amount to pay : {amount}₹</h2>
       <form onSubmit={handleSubmit} className="max-w-md">

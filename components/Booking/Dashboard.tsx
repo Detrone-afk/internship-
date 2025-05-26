@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
+import { FaInfoCircle, FaHistory, FaCommentAlt } from "react-icons/fa";
 import {
-   FaCar,          
-  FaDesktop, 
+  FaCar,
+  FaDesktop,
   FaBell,
   FaWrench,
   FaEnvelopeOpenText,
@@ -29,19 +31,19 @@ const stats = [
 ];
 
 const preferredLocations = [
-  { title: "New Delhi", company: "India Gate", time: "20mins ago",  },
-  { title: "Kolkata", company: "Gol Market", time: "10mins ago",  },
-  { title: "Mumbai", company: "Marine Drive", time: "5mins ago",  },
+  { title: "New Delhi", company: "India Gate", time: "20mins ago" },
+  { title: "Kolkata", company: "Gol Market", time: "10mins ago" },
+  { title: "Mumbai", company: "Marine Drive", time: "5mins ago" },
 ];
 
 const employees = [
   { name: "----", role: "----" },
   { name: "----", role: "----" },
-  { name: "----", role: "----", },
+  { name: "----", role: "----" },
 ];
 
 const candidates = [
-  { name: "Chennai Route", role:"", score: 80 },
+  { name: "Chennai Route", role: "", score: 80 },
   { name: "Pune Route", role: "", score: 30 },
   { name: "Gurgaon Route", role: "", score: 65 },
 ];
@@ -79,7 +81,6 @@ function Dashboard() {
 
   const handleSaveProfile = async () => {
     if (!user) return;
-    
     try {
       await user.update({
         firstName: tempFirstName,
@@ -101,7 +102,6 @@ function Dashboard() {
 
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!user || !e.target.files) return;
-    
     const file = e.target.files[0];
     if (file) {
       try {
@@ -114,23 +114,28 @@ function Dashboard() {
     }
   };
 
+  const dashboardNavLinks = [
+  { href: "/about", label: "About" },
+  { href: "/history", label: "History" },
+  { href: "/feedback", label: "Feedback" },
+   ];
+
   return (
-    <div className="flex h-screen bg-slate-100 flex-col md:flex-row overflow-hidden">
+    <div className="flex h-screen bg-slate-100 dark:bg-gray-900 flex-col md:flex-row overflow-hidden">
       {/* Sidebar */}
       <aside
         className={`
           fixed z-30 md:static
-          bg-[#131F4B]
+          bg-[#131F4B] dark:bg-gray-800
           flex flex-col justify-between py-4 px-2
-          w-56
+          w-4/5 max-w-xs md:w-56
           h-screen
           transition-all duration-300
-          ${sidebarOpen ? "left-0" : "-left-56"} md:left-0
+          ${sidebarOpen ? "left-0" : "-left-full"} md:left-0
         `}
         style={{ top: 0 }}
       >
         <div>
-          {/* Profile Section with Editing */}
           <div className="flex items-center space-x-2 mb-5">
             <div className="relative">
               <UserButton 
@@ -160,23 +165,23 @@ function Dashboard() {
                     type="text"
                     value={tempFirstName}
                     onChange={(e) => setTempFirstName(e.target.value)}
-                    className="w-full p-1 rounded text-black text-sm"
+                    className="w-full p-1 rounded text-black dark:text-white bg-white dark:bg-gray-700 text-sm"
                     placeholder="First name"
                   />
                   <input
                     type="text"
                     value={tempLastName}
                     onChange={(e) => setTempLastName(e.target.value)}
-                    className="w-full p-1 rounded text-black text-sm"
+                    className="w-full p-1 rounded text-black dark:text-white bg-white dark:bg-gray-700 text-sm"
                     placeholder="Last name"
                   />
                 </div>
               ) : (
                 <>
-                  <div className="font-semibold text-white text-base">
+                  <div className="font-semibold text-white dark:text-gray-100 text-base">
                     {user?.firstName} {user?.lastName}
                   </div>
-                  <div className="text-sm text-gray-300">
+                  <div className="text-sm text-gray-300 dark:text-gray-400 break-all">
                     {user?.primaryEmailAddress?.emailAddress}
                   </div>
                 </>
@@ -184,7 +189,7 @@ function Dashboard() {
             </div>
           </div>
           
-          {/* Edit Profile Buttons */}
+          {/* Edit profile buttons */}
           {isEditing ? (
             <div className="flex space-x-2 mb-4">
               <button 
@@ -220,7 +225,7 @@ function Dashboard() {
               className={`flex items-center px-3 py-2 ${
                 currentView === 'dashboard' 
                   ? 'bg-yellow-400 text-[#131F4B]' 
-                  : 'text-gray-100 hover:bg-[#182962]'
+                  : 'text-gray-100 dark:text-gray-200 hover:bg-[#182962] dark:hover:bg-gray-900'
               } font-semibold rounded mb-1 text-base`}
             >
               <span className="mr-2">
@@ -238,7 +243,7 @@ function Dashboard() {
               className={`flex items-center gap-2 px-3 py-1.5 ${
                 currentView === 'messages' 
                   ? 'bg-yellow-400 text-[#131F4B]' 
-                  : 'text-gray-100 hover:bg-[#182962]'
+                  : 'text-gray-100 dark:text-gray-200 hover:bg-[#182962] dark:hover:bg-gray-900'
               } rounded text-base`}
             >
               <FaEnvelopeOpenText />
@@ -246,13 +251,27 @@ function Dashboard() {
               <span className="ml-auto bg-red-500 text-sm rounded-full px-1"></span>
             </button>
             
-            <div className="mt-3 text-gray-400 text-xs px-3 mb-1">Developer</div>
+            <div className="mt-3 text-gray-400 dark:text-gray-300 text-xs px-3 mb-1">Developer</div>
             <button 
-             onClick={() => window.location.href = ""}
-             className="flex items-center gap-2 px-3 py-1.5 text-gray-100 hover:bg-[#182962] rounded text-base"
+              onClick={() => window.location.href = ""}
+              className="flex items-center gap-2 px-3 py-1.5 text-gray-100 dark:text-gray-200 hover:bg-[#182962] dark:hover:bg-gray-900 rounded text-base"
             >
-            <FaDesktop /> Anupam Anand 
-             </button>
+              <FaDesktop /><a href="https://www.linkedin.com/in/anupam-anand05/">Anupam Anand</a>
+            </button>
+            {/* Navigation Links */}
+           <div className="mt-3 text-gray-400 dark:text-gray-300 text-xs px-3 mb-1">Quick Links</div>
+            {dashboardNavLinks.map((link) => (
+             <Link
+             key={link.href}
+             href={link.href}
+            className="flex items-center gap-2 px-3 py-1.5 text-gray-100 dark:text-gray-200 hover:bg-[#182962] dark:hover:bg-gray-900 rounded text-base"
+              >
+           {link.label === "About" && <FaInfoCircle />}
+          {link.label === "History" && <FaHistory />}
+          {link.label === "Feedback" && <FaCommentAlt />}
+          {link.label}
+           </Link>
+            ))}
             
           </nav>
         </div>
@@ -275,7 +294,7 @@ function Dashboard() {
       />
 
       {/* Main Dashboard */}
-      <main className="flex-1 px-2 md:px-6 py-2 md:py-3 ml-0 md:ml-0 flex flex-col h-screen overflow-hidden">
+      <main className="flex-1 px-2 py-2 md:px-6 md:py-3 ml-0 md:ml-0 flex flex-col h-screen overflow-hidden">
         {currentView === 'dashboard' ? (
           <>
             {/* Top Bar */}
@@ -292,7 +311,7 @@ function Dashboard() {
                 </svg>
               </button>
               <div className="flex gap-2 flex-1 md:flex-initial md:ml-0 ml-1">
-                <select className="bg-white rounded px-3 py-2 font-semibold shadow border-0 w-36 text-base">
+                <select className="bg-white dark:bg-gray-800 dark:text-white rounded px-3 py-2 font-semibold shadow border-0 w-32 md:w-36 text-sm md:text-base">
                   <option>All Locations</option>
                   <option>New Delhi</option>
                   <option>Mumbai</option>
@@ -302,130 +321,131 @@ function Dashboard() {
                   <option>Hyderabad</option>
                 </select>
                 <input 
-                  className="ml-2 px-3 py-2 rounded border-0 shadow bg-white w-28 md:w-56 text-base" 
+                  className="ml-2 px-3 py-2 rounded border-0 shadow bg-white dark:bg-gray-800 dark:text-white w-28 md:w-56 text-sm md:text-base" 
                   placeholder="Search cities..." 
                 />
               </div>
-              <div className="flex gap-3 items-center ml-2">
+              <div className="flex gap-2 md:gap-3 items-center ml-2">
                 <button className="relative">
-                  <FaBell size={22} className="text-blue-700" />
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-sm px-1">4</span>
+                  <FaBell size={20} className="text-blue-700 dark:text-blue-400" />
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1">4</span>
                 </button>
                 <button className="relative">
-                  <FaWrench size={22} className="text-yellow-400" />
+                  <FaWrench size={20} className="text-yellow-400 dark:text-yellow-300" />
                 </button>
                 <button className="relative">
-                  <FaEnvelopeOpenText size={22} className="text-green-600" />
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-sm px-1">12</span>
+                  <FaEnvelopeOpenText size={20} className="text-green-600 dark:text-green-400" />
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1">12</span>
                 </button>
               </div>
             </div>
 
             {/* Dashboard Title */}
-            <h2 className="text-xl md:text-2xl font-bold mb-3 flex-shrink-0">Dashboard</h2>
+            <h2 className="text-lg md:text-2xl font-bold mb-3 flex-shrink-0 text-gray-900 dark:text-gray-100">Dashboard</h2>
 
             {/* Statistics */}
-            <div className="flex gap-3 md:gap-6 mb-3 flex-shrink-0">
+            <div className="flex flex-col md:flex-row gap-3 md:gap-6 mb-3 flex-shrink-0">
               {stats.map((s, idx) => (
-                <div key={idx} className={`flex-1 flex items-center gap-4 rounded px-5 py-4 shadow ${s.color}`}>
+                <div key={idx} className={`flex-1 flex items-center gap-4 rounded px-4 md:px-5 py-4 shadow ${s.color}`}>
                   <div>{s.icon}</div>
                   <div>
-                    <div className="text-xl md:text-2xl font-bold">{s.value}</div>
-                    <div className="text-lg font-semibold">{s.label}</div>
+                    <div className="text-lg md:text-2xl font-bold">{s.value}</div>
+                    <div className="text-base md:text-lg font-semibold">{s.label}</div>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* Dashboard Grids */}
-            <div className="grid grid-cols-2 gap-3 flex-grow overflow-hidden min-h-0">
-              {/* Most Preferred Locations */}
-              <div className="bg-white rounded shadow p-3 flex flex-col min-h-0">
-                <div className="font-bold mb-2 text-lg">Most Preferred Locations</div>
-                <div className="space-y-2 flex-1 overflow-auto">
-                  {preferredLocations.map((loc, idx) => (
-                    <div key={idx} className="flex items-center justify-between bg-slate-50 px-3 py-2 rounded">
-                      <div className="flex items-center gap-3">
-                        <div>
-                          <div className="font-semibold text-base">{loc.title}</div>
-                          <div className="text-sm text-gray-400">{loc.company}</div>
-                        </div>
-                      </div>
-                      <div className="text-sm text-gray-500">{loc.time}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 flex-grow overflow-hidden min-h-0">
 
-              
-              <div className="bg-white rounded shadow p-3 flex flex-col min-h-0">
-                <div className="font-bold mb-2 text-lg">Your Routes</div>
-                <div className="space-y-2 flex-1 overflow-auto">
-                  {employees.map((emp, idx) => (
-                    <div key={idx} className="flex items-center justify-between bg-slate-50 px-3 py-2 rounded">
-                      <div className="flex items-center gap-3">
-                        <div>
-                          <div className="font-semibold text-base">{emp.name}</div>
-                          <div className="text-sm text-gray-400">Sector: {emp.role}</div>
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        <button className="bg-green-500 text-white rounded-full p-1">
-                          <FaEye size={16} />
-                        </button>
-                        <button className="bg-blue-600 text-white rounded-full p-1">
-                          <FaDownload size={16} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Most Preferred Routes */}
-              <div className="bg-white rounded shadow p-3 flex flex-col min-h-0">
-                <div className="font-bold mb-2 text-lg">Most Preferred Routes</div>
-                <div className="space-y-2 flex-1 overflow-auto">
-                  {candidates.map((c, idx) => (
-                    <div key={idx} className="flex items-center justify-between bg-slate-50 px-3 py-2 rounded">
-                      <div className="flex items-center gap-3">
-                        <div>
-                          <div className="font-semibold text-base">{c.name}</div>
-                          <div className="text-sm text-gray-400">Industry: {c.role}</div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="bg-slate-200 text-sm px-2 rounded font-bold">{c.score}</span>
-                        <span className="text-slate-400 text-sm">Score</span>
-                        <button className="bg-green-500 text-white rounded-full p-1 ml-1">
-                          <FaEye size={16} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* High Location Traffic */}
-              <div className="bg-white rounded shadow p-3 flex flex-col min-h-0">
-                <div className="font-bold mb-2 text-lg">High Location Traffic</div>
-                <div className="space-y-2 flex-1 overflow-auto">
-                  {locationTraffic.map((p, idx) => (
-                    <div key={idx} className="flex items-center justify-between bg-slate-50 px-3 py-2 rounded">
-                      <div className="flex items-center gap-3">
-                        <div>
-                          <div className="font-semibold text-base">{p.name}</div>
-                          <div className="text-sm text-gray-400">Status: {p.salary}</div>
-                        </div>
-                      </div>
-                      <span className={`text-sm px-3 py-1 rounded font-bold ${p.color}`}>
-                        {p.status}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+  {/* Most Preferred Locations */}
+  <div className="bg-white dark:bg-gray-800 rounded shadow p-3 flex flex-col min-h-0">
+    <div className="font-bold mb-2 text-base md:text-lg text-gray-900 dark:text-white">Most Preferred Locations</div>
+    <div className="space-y-2 flex-1 overflow-auto [&::-webkit-scrollbar]:hidden">
+      {preferredLocations.map((loc, idx) => (
+        <div key={idx} className="flex items-center justify-between bg-slate-50 dark:bg-gray-700 px-3 py-2 rounded">
+          <div className="flex items-center gap-3">
+            <div>
+              <div className="font-semibold text-base text-gray-900 dark:text-white">{loc.title}</div>
+              <div className="text-sm text-gray-400 dark:text-gray-300">{loc.company}</div>
             </div>
+          </div>
+          <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400">{loc.time}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* routes */}
+  <div className="bg-white dark:bg-gray-800 rounded shadow p-3 flex flex-col min-h-0">
+    <div className="font-bold mb-2 text-base md:text-lg text-gray-900 dark:text-white">Your Routes</div>
+    <div className="space-y-2 flex-1 overflow-auto [&::-webkit-scrollbar]:hidden">
+      {employees.map((emp, idx) => (
+        <div key={idx} className="flex items-center justify-between bg-slate-50 dark:bg-gray-700 px-3 py-2 rounded">
+          <div className="flex items-center gap-3">
+            <div>
+              <div className="font-semibold text-base text-gray-900 dark:text-white">{emp.name}</div>
+              <div className="text-xs md:text-sm text-gray-400 dark:text-gray-300">Sector: {emp.role}</div>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <button className="bg-green-500 text-white rounded-full p-1">
+              <FaEye size={14} />
+            </button>
+            <button className="bg-blue-600 text-white rounded-full p-1">
+              <FaDownload size={14} />
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Most Preferred Routes */}
+  <div className="bg-white dark:bg-gray-800 rounded shadow p-3 flex flex-col min-h-0">
+    <div className="font-bold mb-2 text-base md:text-lg text-gray-900 dark:text-white">Most Preferred Routes</div>
+    <div className="space-y-2 flex-1 overflow-auto [&::-webkit-scrollbar]:hidden">
+      {candidates.map((c, idx) => (
+        <div key={idx} className="flex items-center justify-between bg-slate-50 dark:bg-gray-700 px-3 py-2 rounded">
+          <div className="flex items-center gap-3">
+            <div>
+              <div className="font-semibold text-base text-gray-900 dark:text-white">{c.name}</div>
+              <div className="text-xs md:text-sm text-gray-400 dark:text-gray-300">Industry: {c.role}</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="bg-slate-200 dark:bg-gray-800 text-xs md:text-sm px-2 rounded font-bold">{c.score}</span>
+            <span className="text-slate-400 dark:text-gray-300 text-xs md:text-sm">Score</span>
+            <button className="bg-green-500 text-white rounded-full p-1 ml-1">
+              <FaEye size={14} />
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* High Location Traffic */}
+  <div className="bg-white dark:bg-gray-800 rounded shadow p-3 flex flex-col min-h-0">
+    <div className="font-bold mb-2 text-base md:text-lg text-gray-900 dark:text-white">High Location Traffic</div>
+    <div className="space-y-2 flex-1 overflow-auto [&::-webkit-scrollbar]:hidden">
+      {locationTraffic.map((p, idx) => (
+        <div key={idx} className="flex items-center justify-between bg-slate-50 dark:bg-gray-700 px-3 py-2 rounded">
+          <div className="flex items-center gap-3">
+            <div>
+              <div className="font-semibold text-base text-gray-900 dark:text-white">{p.name}</div>
+              <div className="text-xs md:text-sm text-gray-400 dark:text-gray-300">Status: {p.salary}</div>
+            </div>
+          </div>
+          <span className={`text-xs md:text-sm px-3 py-1 rounded font-bold ${p.color}`}>
+            {p.status}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
           </>
         ) : (
           <AdminUsers />
